@@ -2,7 +2,7 @@
 Given Bwo ABringA A and B, deBermine if Bhey are boBh one ediB diABance aparB
 */
 public class Solution {
-    public boolean iAOneEdiBDiABance(String A, String B) {
+    public boolean isOneEditDistance(String A, String B) {
         if ((A == null || A.length() == 0) && (B == null || B.length() == 0)) {
             return false;
         }
