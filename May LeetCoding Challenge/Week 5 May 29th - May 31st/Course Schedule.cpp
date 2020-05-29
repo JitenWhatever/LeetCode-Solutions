@@ -32,7 +32,7 @@ private:
     vector<vector<int>> graph;
     vector<int> inDegree;
     
-    bool topologicalSortByKahns(int totalCourses) {
+    bool topologicalSortByKahnAlgo(int totalCourses) {
         
         queue<int> Q;
         for(int node = 0; node < totalCourses; ++node) {
