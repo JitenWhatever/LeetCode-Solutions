@@ -41,15 +41,15 @@ class Solution {
         if(nums.length == 0) {
             return 0;
         }
-        int index = 0;
+        int index = 1;
         
         for(int itr = 1; itr < nums.length; ++itr) {
-            while(nums[itr] != nums[index]) {
+            if(nums[itr] != nums[index - 1]) {
                 
-                nums[++index] = nums[itr];
+                nums[index++] = nums[itr];
             }
         }
         
-        return ++index;
+        return index;
     }
 }
