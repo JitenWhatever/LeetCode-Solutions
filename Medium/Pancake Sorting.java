@@ -38,3 +38,45 @@ Constraints:
 1 <= A[i] <= A.length
 All integers in A are unique (i.e. A is a permutation of the integers from 1 to A.length).
 */
+
+class Solution {
+    public List<Integer> pancakeSort(int[] arr) {
+        
+        int end = arr.length;
+        List<Integer> result = new ArrayList<>();
+        while(end > 1) {
+            int index = getMax(arr, end, end);
+            arr = reverse(arr, index);
+            arr = reverse(arr, end - 1);
+            result.add(index + 1);
+            result.add(end);
+            --end;
+        }
+    
+        return result;
+    }
+    
+    
+    private int[] reverse(int[] arr, int end) {
+        int start = 0;
+        while(start < end) {
+            int temp = arr[start];
+            arr[start++] = arr[end];
+            arr[end--] = temp;
+        }
+        
+        return arr;
+    }
+    
+    private int getMax(int[] arr, int len, int target) {
+        
+        for(int index = 0; index < len; ++index) {
+            if(arr[index] == target) {
+                return index;
+            }
+        }
+        
+        return -1;
+    }
+}
+
