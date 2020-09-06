@@ -42,3 +42,29 @@ For [2,3], the interval [3,4] has minimum-"right" start point.
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 */
 
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        map<int, int> hash;
+        
+        int index = 0;
+        for(vector<int> interval : intervals) {
+            hash[interval[0]] = index++;
+        }
+        
+        vector<int> result;
+        
+        for(vector<int> interval : intervals) {
+            auto  itr = hash.lower_bound(interval[1]);
+            
+            if(itr != hash.end()) {
+                result.push_back(itr->second);
+            }
+            else {
+                result.push_back(-1);
+            }
+        }
+        
+        return result;
+    }
+};
