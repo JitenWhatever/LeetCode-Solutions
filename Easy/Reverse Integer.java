@@ -19,7 +19,7 @@ Assume we are dealing with an environment which could only store integers within
 */
 
 class Solution {
-    public int reverse(int x) {
+    public int reverse1(int x) {
         int reverseNumber  = 0;
         while(x != 0){
            
@@ -32,5 +32,28 @@ class Solution {
         }
         
         return reverseNumber;
+    }
+
+
+    public int reverse2(int x) {
+        int reverseNumber = 0;
+
+        while(x != 0) {
+            int  digit = x % 10;
+            int dummy = reverseNumber*10 + digit;
+
+            if((reverseNumber - digit)/10 != reverseNumber) {
+                return 0;
+            }
+
+            x /= 10;
+            reverseNumber = dummy;
+        }
+
+        return reverseNumber;
+    }
+
+    public int reverse(int x) {
+        return reverse2(x);
     }
 }
