@@ -47,3 +47,6 @@ class Solution {
         return sum == num;
     }
 }
+/*
+https://en.wikipedia.org/wiki/Perfect_number
+*/
