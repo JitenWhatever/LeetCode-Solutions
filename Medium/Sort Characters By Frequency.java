@@ -40,37 +40,64 @@ Note that 'A' and 'a' are treated as two different characters.
 
 class Solution {
     public String frequencySort(String s) {
+        if(s == null || s.isEmpty()) {
+            return s;
+        }
         
-        int[] hash = new int[128];
-        
+        Map<Character, Integer> freq = new HashMap<>();
         for(char ch : s.toCharArray()) {
-            hash[ch]++;
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
         }
-   
-        List<Integer> list = new ArrayList<Integer>();
         
-        for(int count : hash) {
-            if(count != 0) {
-                list.add(count);
+        List<Character> sortedCharacters = new ArrayList<>(freq.keySet());
+        Collections.sort(sortedCharacters, (a, b) -> freq.get(b) - freq.get(a));
+        
+        StringBuilder result = new StringBuilder();
+        
+        for(char ch : sortedCharacters) {
+            int repeat = freq.get(ch);
+            while(repeat > 0) {
+                result.append(ch);
+                --repeat;
             }
         }
         
-        Collections.sort(list,Collections.reverseOrder());
-        StringBuilder sb = new StringBuilder();
-        
-        for(int charCount : list) {
-            
-            for(int index = 0; index < 128; ++index) {
-                if(charCount == hash[index]) {
-                    
-                    while(hash[index]-- > 0) {
-                        sb.append((char)index);
-                    }
-                    break;
-                }
-            }
+        return result.toString();
+    }
+}
+
+// bucket Sort
+class Solution {
+    public String frequencySort(String s) {
+        if(s == null || s.isEmpty()) {
+            return s;
         }
         
-        return sb.toString();
+        Map<Character, Integer> freq = new HashMap<>();
+        for(char ch : s.toCharArray()) {
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
+        }
+        
+        int maxCount = Collections.max(freq.values());
+        List<List<Character>> buckets = new ArrayList<>();
+        for (int bucket = 0; bucket <= maxCount; bucket++) {
+            buckets.add(new ArrayList<Character>());
+        }
+        for(char ch : freq.keySet()) {
+            int count = freq.get(ch);
+            buckets.get(count).add(ch);
+        }
+        
+        StringBuilder result = new StringBuilder();
+        
+        for(int bucket = buckets.size() - 1; bucket >= 1; --bucket) {
+           for(Character ch : buckets.get(bucket)) {
+               for(int repeat = 0; repeat < bucket; ++repeat) {
+                   result.append(ch);
+               }
+           }
+        }
+    
+        return result.toString();
     }
 }
