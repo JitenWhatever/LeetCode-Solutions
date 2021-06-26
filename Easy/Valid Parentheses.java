@@ -32,33 +32,22 @@ Output: true
 
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> st = new Stack<>();
+        Stack<Character> stack = new Stack();
         
         for(char ch : s.toCharArray()) {
-            if(ch == '(' || ch == '{' || ch == '[') {
-                st.push(ch);
-            }
-            else {
-                if(!st.isEmpty()) {
-                    char tmp = st.peek();
-                    if(ch == ')' && tmp == '('){
-                        st.pop();
-                    }
-                    else if(ch == ']' && tmp == '['){
-                        st.pop();
-                    }
-                    else if(ch == '}' && tmp == '{'){
-                        st.pop();
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                else {
-                    return false;
-                }
-            }
-        }    
-        return st.isEmpty();
+           if(ch == '(' || ch == '{' || ch == '[') {
+               stack.push(ch);
+           } else {
+               if(stack.isEmpty()) {
+                   return false;
+               }
+               Character c = stack.pop();
+               if((ch == ')' && c != '(') || (ch == '}' && c != '{') || (ch == ']' && c != '[')) {
+                   return false;
+               }
+           }
+        }
+        
+        return stack.isEmpty();
     }
 }
