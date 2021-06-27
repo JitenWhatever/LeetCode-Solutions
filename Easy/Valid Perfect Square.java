@@ -23,7 +23,7 @@ Constraints:
 
 class Solution {
     public boolean isPerfectSquare(int num) {
-        long low = 1;
+        long low = 2;
         long high = num/2;
         
         if(num == 1) {
@@ -33,7 +33,7 @@ class Solution {
         while(low <= high) {
             long mid = low + (high - low)/2;
             long sqr = mid * mid;
-            // System.out.println(mid + ": " + sqr);
+            // long to avoid overflow
             if(num == sqr) {
                 return true;
             }
@@ -48,3 +48,21 @@ class Solution {
         return false;
     }
 }
+
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        
+        if(num < 2) {
+            return true;
+        }
+        
+        long iv = num / 2; // long to avoid overflow
+        
+        while(iv * iv > num) {
+            iv = (iv + num/iv)/2;
+        }
+        
+        return iv * iv == num;
+    }
+}
+
