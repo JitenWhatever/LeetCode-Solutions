@@ -24,3 +24,40 @@ class Solution {
         return result;
     }
 }
+
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        return divideAndConquer(nums, 0, nums.length - 1);
+    }
+
+    private int divideAndConquer(int[] nums, int left, int right) {
+        
+        if(left >  right) {
+            return Integer.MIN_VALUE;
+        }
+        
+        int mid = (right + left) / 2;
+        
+        int leftMax = 0, rightMax = 0, currentSum = 0;
+        
+        for(int index = mid - 1; index >= left; --index) {
+            currentSum += nums[index];
+            leftMax = Math.max(leftMax, currentSum);
+        }
+        
+        currentSum = 0;
+        
+         for(int index = mid + 1; index <= right; ++index) {
+            currentSum += nums[index];
+            rightMax = Math.max(rightMax, currentSum);
+        }
+    
+        int max = nums[mid] + leftMax + rightMax; // combined sum 
+        
+        int leftMaxSum = divideAndConquer(nums, left, mid - 1);
+        int rightMaxSum = divideAndConquer(nums, mid + 1, right);
+        
+        return Math.max(max, Math.max(leftMaxSum, rightMaxSum));
+    }
+}
