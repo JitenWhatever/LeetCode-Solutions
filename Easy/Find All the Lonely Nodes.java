@@ -60,31 +60,49 @@ Each node's value is between [1, 10^6].
  *     }
  * }
  */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-
-    public List<int> getLonelyNodes(TreeNode root) {
-        List<Integer> result = new ArrayList();
-        dfs(root, result);
-        return res;
+    public List<Integer> getLonelyNodes(TreeNode root) {
+        
+        List<Integer> lonelyNodes = new ArrayList<>();
+        if(Objects.isNull(root)) {
+            return lonelyNodes;
+        }
+        
+        dfs(root, lonelyNodes);
+    
+        return lonelyNodes;
     }
     
-    private void dfs(TreeNode root, List<Integer> res) {
-        if (root == null) {
-            return;
-        } 
-
-        if ((root.left != null) && (root.right != null)) {
-            dfs(root.left, res);
-            dfs(root.right, res);
-            return;
+    private void dfs(TreeNode root, List<Integer> lonelyNodes) {
+        if(Objects.isNull(root)) {
+            return ;
         }
-        if (root.left != null) {
-            res.push_back(root.left.val);        
-            dfs(root.left, res);
+        
+        if(Objects.isNull(root.left) && Objects.nonNull(root.right)) {
+            lonelyNodes.add(root.right.val);
         }
-        if (root.right != null) {
-            res.push_back(root.right.val);        
-            dfs(root.right, res);            
-        }                
+        
+         if(Objects.isNull(root.right) && Objects.nonNull(root.left)) {
+            lonelyNodes.add(root.left.val);
+        }
+        
+        dfs(root.left, lonelyNodes);
+        dfs(root.right, lonelyNodes);
+       
     }
 }
