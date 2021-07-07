@@ -56,6 +56,29 @@ class Solution {
     }
 }
 
+class Solution {
+    public int countSubstrings(String s) {
+        
+        if (Objects.isNull(s) || s.isEmpty()) {
+            return 0;
+        }
+        
+        int palindromes = 0;
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        
+        for(int left = s.length() - 1; left >= 0; --left) {
+            for(int right = left; right < s.length(); ++right) {
+                dp[left][right] = ((s.charAt(left) == s.charAt(right))&&
+                                   (right - left < 3 || dp[left + 1][right - 1]));
+                
+                palindromes += dp[left][right] ? 1 : 0;
+            }
+        }
+        
+        return palindromes;
+    }
+}
+
 /* 
 Better approaches do exist to solve this problem in sub-quadratic time, however those are significantly complex and impractical to implement in most interviews.
 
