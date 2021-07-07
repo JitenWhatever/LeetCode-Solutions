@@ -58,3 +58,32 @@ class Solution {
 }
 
 //https://leetcode.com/problems/subarrays-with-k-different-integers/discuss/523136/JavaC%2B%2BPython-Sliding-Window
+
+class Solution {
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        
+        
+        return getSubArraysCount(nums, k) - getSubArraysCount(nums, k  - 1);
+    }
+    
+       private int getSubArraysCount(int[] S, int distinctNumber) {
+        int left = 0, right = 0, subArrays = 0, size = 0;
+        int[] hash = new int[20001];
+        while (right < S.length) {
+            if(++hash[S[right++]] == 1) {
+                ++size;
+            }
+            
+            while(left < S.length && size > distinctNumber) {
+              if(--hash[S[left++]] == 0) {
+                  --size;
+              }
+            }
+            
+            subArrays += (right - left);
+        }
+        
+        
+        return subArrays;
+    }
+}
