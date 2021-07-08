@@ -28,45 +28,66 @@ s consists only of lowercase English letters.
 class Solution {
     public int longestPalindromeSubseq(String s) {
         
-        if(s == null || s.length() == 0) {
-            return 0;
+        if (Objects.isNull(s) || s.isEmpty()) {
+           return 0; 
         }
         
-        int N = s.length();
-        dp = new Integer[N][N];
+        dp = new Integer[s.length()][s.length()];
         
-        recurse(s, 0, N - 1); // 51 ms
-    
+        recurse(s, 0, s.length() - 1);
         
-        return dp[0][N - 1];
+        return dp[0][s.length() - 1];
     }
     
-    private Integer[][] dp;
+    private Integer dp[][];
     
-    private int recurse(String s, int l, int r) {
-        if(l > r) {
-            dp[l][r] = 0;
-            return dp[l][r];
-        }
-        
-        if(l == r) {
+    private int recurse(String s, int left, int right) {
+          
+        if(left > right) {
+            dp[left][right] = 0;
             
-            dp[l][r] = 1;
-            return dp[l][r];
+            return dp[left][right];
         }
         
-        if(dp[l][r] != null) {
-            return dp[l][r];
+        if(left == right) {
+            return dp[left][right] = 1;
         }
         
-        if(s.charAt(l) == s.charAt(r)) {
-            dp[l][r] = 2 + recurse(s, l + 1, r - 1);
-            
-            return dp[l][r];
+        if (Objects.nonNull(dp[left][right])) {
+           return dp[left][right]; 
         }
         
-        dp[l][r] =  Math.max(recurse(s, l + 1, r), recurse(s, l, r - 1));
+        if (s.charAt(left) == s.charAt(right)) {
+            return dp[left][right] = 2 + recurse(s, left + 1, right - 1);
+        }
         
-        return dp[l][r];
+        return dp[left][right] = Math.max(recurse(s, left + 1, right), recurse(s, left, right - 1));
     }
+}
+
+
+// dp[i][j]  = maximum lenght palidromic subsequence of substring (i, j)
+
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        
+        if (Objects.isNull(s) || s.isEmpty()) {
+           return 0; 
+        }
+        
+        int[][] dp = new int[s.length()][s.length()];
+        
+        for(int left = s.length() - 1; left >= 0; --left) {
+            dp[left][left] = 1;
+            for(int right = left + 1; right < s.length(); ++right) {
+                if(s.charAt(left) == s.charAt(right)) {
+                    dp[left][right] = 2 + dp[left + 1][right - 1];
+                } else {
+                    dp[left][right] = Math.max(dp[left + 1][right], dp[left][right - 1]);
+                }
+            }
+        }
+       
+        return dp[0][s.length() - 1];
+    }    
 }
