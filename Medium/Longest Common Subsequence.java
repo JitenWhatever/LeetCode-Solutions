@@ -49,3 +49,38 @@ class Solution {
         return dp[N][M];
     }
 }
+
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+       
+        this.text1 = text1;
+        this.text2 = text2;
+        
+        dp = new Integer[this.text1.length() + 1][this.text2.length() + 1];
+        
+        recurse(this.text1.length(), this.text2.length());
+        
+        return dp[this.text1.length()][this.text2.length()];
+    }
+    
+    Integer[][] dp;
+    private String text1, text2;
+    private int recurse(int i, int j) {
+        
+        if(i == 0  || j == 0) {
+            return dp[i][j] = 0;
+        }
+        
+        if (Objects.nonNull(dp[i][j])) {
+            return dp[i][j];
+        }
+        
+        if (this.text1.charAt(i - 1) == this.text2.charAt(j - 1)) {
+            return dp[i][j] = 1 + recurse(i - 1, j - 1);
+        }
+        
+        
+        return dp[i][j] = Math.max(recurse(i - 1, j), recurse(i, j - 1));
+    }
+}
