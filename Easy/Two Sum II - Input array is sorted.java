@@ -1,12 +1,10 @@
 /*
-Given an array of integers that is already sorted in ascending order, find two numbers such that they add up to a specific target number.
+Given an array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number.
 
-The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2.
+Return the indices of the two numbers (1-indexed) as an integer array answer of size 2, where 1 <= answer[0] < answer[1] <= numbers.length.
 
-Note:
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
 
-Your returned answers (both index1 and index2) are not zero-based.
-You may assume that each input would have exactly one solution and you may not use the same element twice.
  
 
 Example 1:
@@ -26,10 +24,11 @@ Output: [1,2]
 
 Constraints:
 
-2 <= nums.length <= 3 * 104
--1000 <= nums[i] <= 1000
-nums is sorted in increasing order.
+2 <= numbers.length <= 3 * 104
+-1000 <= numbers[i] <= 1000
+numbers is sorted in non-decreasing order.
 -1000 <= target <= 1000
+The tests are generated such that there is exactly one solution.
 */
 
 
