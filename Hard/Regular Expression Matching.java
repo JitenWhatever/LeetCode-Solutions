@@ -44,37 +44,30 @@ It is guaranteed for each appearance of the character '*', there will be a previ
 
 class Solution {
     public boolean isMatch(String s, String p) {
-        int N = s.length();
-        int M = p.length();
+        int N = s.length(), M = p.length();
+        boolean[][] dp = new boolean[N + 1][M + 1]; // dp[i][j] string till i matches pattern till j or not
         
-        boolean[][] dp = new boolean[N + 1][M + 1]; // dp[i][j] string till i matches till pattern j
+        dp[0][0] = true; 
         
-        dp[0][0] = true;// empty string , empty pattern
-        
-        for(int index = 1; index <= M; ++index) {
-            if(p.charAt(index - 1) == '*' && index > 1) {
+        for (int index = 1; index <= M; ++index) {
+            if (p.charAt(index - 1) == '*') {
                 dp[0][index] = dp[0][index - 2];
             }
         }
         
-        for(int i = 1; i <= N; i++) {
-            for(int j = 1; j <= M; j++) {
-                
-                if(s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '.') {
-                    dp[i][j] = dp[i - 1][j - 1];
-                }
-                else if(p.charAt(j - 1) == '*' && j > 1) {
-                    if(s.charAt(i - 1) == p.charAt(j - 2) || p.charAt(j - 2) == '.'){
-                        dp[i][j] = dp[i][j - 2] || dp[i - 1][j];    
-                    } 
-                    else {
-                        dp[i][j] = dp[i][j - 2];
+        for (int index_i = 1; index_i <= N; ++index_i) {
+            for (int index_j = 1; index_j <= M; ++index_j) {
+                if (s.charAt(index_i - 1) == p.charAt(index_j - 1) || p.charAt(index_j - 1) == '.') {
+                    dp[index_i][index_j] = dp[index_i - 1][index_j - 1];
+                } else if (p.charAt(index_j - 1) == '*') {
+                    dp[index_i][index_j] = dp[index_i][index_j - 2];
+                    if (s.charAt(index_i - 1) == p.charAt(index_j - 2) || p.charAt(index_j - 2) == '.') {
+                        dp[index_i][index_j] = dp[index_i][index_j] || dp[index_i - 1][index_j];
                     }
                 }
             }
         }
         
         return dp[N][M];
-        
     }
 }
