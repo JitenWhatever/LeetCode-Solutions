@@ -97,12 +97,4 @@ class Solution {
             }
         }
     }
-    
-    private boolean isPalindrome(int left, int right) {
-        while (left < right) {
-            if (this.input.charAt(left++) != this.input.charAt(right--)) return false;
-        }
-        
-        return true;
-    }
 }
