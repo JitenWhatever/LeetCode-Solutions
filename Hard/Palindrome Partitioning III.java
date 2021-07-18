@@ -70,3 +70,14 @@ class Solution {
         }
     }
 }
+
+
+/*
+for (int i = 0; i < n; ++i) {      
+      dp[i][1] = cost[0][i];
+      for (int k = 1; k <= K; ++k)
+        for (int j = 0; j < i; ++j)
+          dp[i][k] = min(dp[i][k], dp[j][k - 1] + cost[j + 1][i]);        
+    }
+}
+*/
