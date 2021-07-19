@@ -50,7 +50,7 @@ class Solution {
     }
     
     private String s1, s2, s3;
-    
+    // O(2^(m + n))
     private boolean recurse(int i, int j, String currentResult) {
         if (currentResult.equals(this.s3) && i == this.s1.length() && j == this.s2.length()) {
             return true;
@@ -65,4 +65,105 @@ class Solution {
         
        return result;        
     }
+}
+
+//  1 MS 
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        this.s1 = s1;
+        this.s2 = s2;
+        this.s3 = s3;
+        this.dp = new Boolean[this.s1.length()][this.s2.length()];
+        return recurse(0, 0, 0);
+    }
+    
+    private String s1, s2, s3;
+    private Boolean[][] dp;
+    
+    private boolean recurse(int i, int j, int k) {
+        if (i == this.s1.length()) {
+            return this.s2.substring(j).equals(this.s3.substring(k));
+        }
+    
+        if (j == this.s2.length()) {
+            return this.s1.substring(i).equals(this.s3.substring(k));
+        }
+        
+        if (Objects.nonNull(dp[i][j])) {
+            return dp[i][j];
+        }
+        
+        boolean result = false;
+        result |= (this.s3.charAt(k) == this.s1.charAt(i) && recurse(i + 1, j, k + 1));
+        if (!result) {
+            result |= (this.s3.charAt(k) == this.s2.charAt(j) && recurse(i, j + 1, k + 1));
+        }
+        
+       return dp[i][j] = result;        
+    }
+}
+
+// 2d DP 3 ms
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        this.dp = new boolean[s1.length() + 1][s2.length() + 1];
+        
+        for (int i = 0; i <= s1.length(); ++i) {
+            for (int j = 0; j <= s2.length(); ++j) {
+                if (i == 0 && j == 0) {
+                    dp[i][j] =true;
+                } else if (i == 0) {
+                    dp[i][j] = dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1);
+                } else if (j == 0) {
+                    dp[i][j] = dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1);
+                } else {
+                    dp[i][j] = (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1) || dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1));
+                }
+            }
+        }
+        
+        return dp[s1.length()][s2.length()];
+    }
+    
+    private boolean[][] dp;
+   
+}
+
+
+// 1d DP 2MS
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        this.dp = new boolean[s2.length() + 1];
+        
+        for (int i = 0; i <= s1.length(); ++i) {
+            for (int j = 0; j <= s2.length(); ++j) {
+                if (i == 0 && j == 0) {
+                    dp[j] =true;
+                } else if (i == 0) {
+                    dp[j] = dp[j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1);
+                } else if (j == 0) {
+                    dp[j] = dp[j] && s1.charAt(i - 1) == s3.charAt(i + j - 1);
+                } else {
+                    dp[j] = (dp[j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1) || dp[j] && s1.charAt(i - 1) == s3.charAt(i + j - 1));
+                }
+            }
+        }
+        
+        return dp[s2.length()];
+    }
+    
+    private boolean[] dp;
+   
 }
