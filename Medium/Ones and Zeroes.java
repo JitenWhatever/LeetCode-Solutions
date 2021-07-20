@@ -28,3 +28,126 @@ Constraints:
 strs[i] consists only of digits '0' and '1'.
 1 <= m, n <= 100
 */
+
+// subset generation give TLE if 2^n > 2^32
+public class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        int maxlen = 0;
+        for (int i = 0; i < (1 << strs.length); i++) {
+            int zeroes = 0, ones = 0, len = 0;
+            for (int j = 0; j < strs.length; j++) {
+                if ((i & (1 << j)) != 0) {
+                    int[] count = countzeroesones(strs[j]);
+                    zeroes += count[0];
+                    ones += count[1];
+                    if (zeroes > m || ones > n)
+                        break;
+                    len++;
+                }
+            }
+            if (zeroes <= m && ones <= n)
+                maxlen = Math.max(maxlen, len);
+        }
+        return maxlen;
+
+    }
+    public int[] countzeroesones(String s) {
+        int[] c = new int[2];
+        for (int i = 0; i < s.length(); i++) {
+            c[s.charAt(i)-'0']++;
+        }
+        return c;
+    }
+}
+
+
+// TLE 
+
+/**
+ Include the current string in the subset currently being considered. 
+ But if we include the current string, we'll need to deduct the number of 0's and 1's in the current string from the total available respective counts. 
+ Thus, we make a function call of the form calculate(strs,i+1,zeroes-zeroes_{current\_string},ones-ones_{current\_string})calculate(strs,i+1,zeroes−zeroes 
+current_string
+​	
+ ,ones−ones 
+current_string
+​	
+ ). We also need to increment the total number of strings considered so far by 1. We store the result obtained from this call(including the +1) in takentaken variable.
+
+Not include the current string in the current subset. In this case, we need not update the count of onesones and zeroeszeroes. 
+Thus, the new function call takes the form calculate(strs,i+1,zeroes,ones)calculate(strs,i+1,zeroes,ones). 
+The result obtained from this function call is stored in notTakennotTaken variable.
+ */
+public class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        return calculate(strs, 0, m, n);
+    }
+    public int calculate(String[] strs, int i, int zeroes, int ones) {
+        if (i == strs.length)
+            return 0;
+        int[] count = countzeroesones(strs[i]);
+        int taken = -1;
+        if (zeroes - count[0] >= 0 && ones - count[1] >= 0)
+            taken = calculate(strs, i + 1, zeroes - count[0], ones - count[1]) + 1;
+        int not_taken = calculate(strs, i + 1, zeroes, ones);
+        return Math.max(taken, not_taken);
+    }
+    public int[] countzeroesones(String s) {
+        int[] c = new int[2];
+        for (int i = 0; i < s.length(); i++) {
+            c[s.charAt(i)-'0']++;
+        }
+        return c;
+    }
+}
+
+
+public class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        int[][][] memo = new int[strs.length][m + 1][n + 1];
+        return calculate(strs, 0, m, n, memo);
+    }
+    public int calculate(String[] strs, int i, int zeroes, int ones, int[][][] memo) {
+        if (i == strs.length)
+            return 0;
+        if (memo[i][zeroes][ones] != 0)
+            return memo[i][zeroes][ones];
+        int[] count = countzeroesones(strs[i]);
+        int taken = -1;
+        if (zeroes - count[0] >= 0 && ones - count[1] >= 0)
+            taken = calculate(strs, i + 1, zeroes - count[0], ones - count[1], memo) + 1;
+        int not_taken = calculate(strs, i + 1, zeroes, ones, memo);
+        memo[i][zeroes][ones] = Math.max(taken, not_taken);
+        return memo[i][zeroes][ones];
+    }
+    public int[] countzeroesones(String s) {
+        int[] c = new int[2];
+        for (int i = 0; i < s.length(); i++) {
+            c[s.charAt(i)-'0']++;
+        }
+        return c;
+    }
+}
+
+// napsack
+public class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        int[][] dp = new int[m + 1][n + 1];
+        for (String s: strs) {
+            int[] count = countzeroesones(s);
+            for (int zeroes = m; zeroes >= count[0]; zeroes--)
+                for (int ones = n; ones >= count[1]; ones--)
+                    dp[zeroes][ones] = Math.max(1 + dp[zeroes - count[0]][ones - count[1]], dp[zeroes][ones]);
+        }
+        return dp[m][n];
+    }
+    public int[] countzeroesones(String s) {
+        int[] c = new int[2];
+        for (int i = 0; i < s.length(); i++) {
+            c[s.charAt(i)-'0']++;
+        }
+        return c;
+    }
+}
+
+
