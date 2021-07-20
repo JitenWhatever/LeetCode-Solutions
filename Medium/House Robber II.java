@@ -1,9 +1,9 @@
 /*
 You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. 
-All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. 
-Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
+All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, 
+adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
-Given a list of non-negative integers nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 
  
 
@@ -29,23 +29,20 @@ Constraints:
 1 <= nums.length <= 100
 0 <= nums[i] <= 1000
 */
-
 class Solution {
     public int rob(int[] nums) {
-        if(nums == null || nums.length == 0) {
-            return 0;
-        }
-        int len = nums.length;
-        if(len == 1) {
+        if (nums.length == 1) {
             return nums[0];
         }
-        return Math.max(houseRob(0, len - 1, nums), houseRob(1, len, nums));
+        
+        return Math.max(houseRob(0, nums.length - 1, nums), houseRob(1, nums.length, nums));
     }
+    
     
     private int houseRob(int l, int r, int[] nums) {
         int last2 = 0, last1 = 0, money = 0;
         
-        for(int house = l; house < r; ++house) {
+        for (int house = l; house < r; ++house) {
             money = Math.max(last2 + nums[house], last1);
             
             last2 = last1;
