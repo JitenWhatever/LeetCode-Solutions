@@ -44,32 +44,31 @@ class Node {
 */
 
 class Solution {
-    public List<List<Integer>> levelOrder(Node root) {  // 2ms
-        List<List<Integer>> result = new ArrayList();
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> levelOrder = new ArrayList<>();
         
-        if(root == null) {
-            return result;
+        if (Objects.isNull(root)) {
+            return levelOrder;
         }
         
         Queue<Node> Q = new LinkedList<>();
         Q.add(root);
         
-        while(!Q.isEmpty()) {
+        while (!Q.isEmpty()) {
             int size = Q.size();
-            List<Integer> dummy = new ArrayList<>();
-            while(size-- > 0) {
+            List<Integer> level = new ArrayList<>();
+            while (size-- > 0) {
                 root = Q.poll();
-                dummy.add(root.val);
-                if(root.children != null) {
-                    for(Node node : root.children) {
-                        Q.add(node);
-                    }
+                level.add(root.val);
+                
+                if (Objects.nonNull(root.children)) {
+                    root.children.forEach(node -> Q.add(node));
                 }
             }
             
-            result.add(dummy);
+            levelOrder.add(level);
         }
         
-        return result;
+        return levelOrder;
     }
 }
