@@ -15,8 +15,22 @@ return its level order traversal as:
   [9,20],
   [15,7]
 ]
-*/
 
+Example 2:
+
+Input: root = [1]
+Output: [[1]]
+Example 3:
+
+Input: root = []
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 2000].
+-1000 <= Node.val <= 1000
+*/
 
 /**
  * Definition for a binary tree node.
@@ -35,33 +49,60 @@ return its level order traversal as:
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-         List<List<Integer>> result = new ArrayList();
+        List<List<Integer>> levelOrder = new ArrayList<>();
         
-        if(root == null) {
-            return result;
+        if (Objects.isNull(root)) {
+            return levelOrder;
         }
         
         Queue<TreeNode> Q = new LinkedList<>();
+
         Q.add(root);
-        while(!Q.isEmpty()) {
-            int len = Q.size();
-
-            Integer[] dummy = new Integer[len];
         
-            for(int index = 0; index < len; ++index) {
+        while (!Q.isEmpty()) {
+            int size = Q.size();
+            List<Integer> level = new ArrayList<>();
+            while (size-- > 0) {
                 root = Q.poll();
-                dummy[index] = root.val;
-
-                if(root.left != null) {
+                level.add(root.val);
+                
+                if (Objects.nonNull(root.left)) {
                     Q.add(root.left);
                 }
-                if(root.right != null) {
+                
+                if (Objects.nonNull(root.right)) {
                     Q.add(root.right);
                 }
-            }    
-            
-            result.add(Arrays.asList(dummy));
+            }
+            levelOrder.add(level);
         }
-    return result;
+        
+        return levelOrder;
+    }
+}
+
+
+class Solution {
+    List<List<Integer>> levels = new ArrayList<List<Integer>>();
+
+    public void helper(TreeNode node, int level) {
+        // start the current level
+        if (levels.size() <= level)
+            levels.add(new ArrayList<Integer>());
+
+         // fulfil the current level
+         levels.get(level).add(node.val);
+
+         // process child nodes for the next level
+         if (node.left != null)
+            helper(node.left, level + 1);
+         if (node.right != null)
+            helper(node.right, level + 1);
+    }
+    
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) return levels;
+        helper(root, 0);
+        return levels;
     }
 }
