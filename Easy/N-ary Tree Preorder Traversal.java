@@ -53,41 +53,40 @@ class Node {
 
 class Solution {
     public List<Integer> preorder(Node root) {
-       preOrder(root); // 0 ms 
-        // preOrderiterative(root); // 2 ms
-        return result;
-    }
-    
-    private List<Integer> result = new ArrayList<>();
-    
-    private void preOrder(Node root) {
-        if(root == null) {
-            return ;
+        List<Integer> preOrder = new ArrayList<>();
+        
+        if (Objects.isNull(root)) {
+            return preOrder;
         }
         
-        result.add(root.val);
-        for(Node node : root.children) {
-            preOrder(node);
-        }
-    }
-    
-    private void preOrderiterative(Node root) {
-        Stack<Node> st = new Stack<>();
-        
-        if(root == null) {
-            return ;
-        }
-        
-        st.push(root);
-        
-        while(!st.isEmpty()) {
-            root = st.pop();
-            result.add(root.val);
-            if(root.children != null) {
-                for(int index = root.children.size() - 1; index >= 0; --index) {
-                    st.push(root.children.get(index));
+        Stack<Node> stck = new Stack<>();
+        stck.push(root);
+        while (!stck.isEmpty()) {
+            root = stck.pop();
+            preOrder.add(root.val);
+            
+            if (Objects.nonNull(root.children)) {
+                for (int index = root.children.size() - 1; index >= 0; --index) {
+                    stck.push(root.children.get(index));
                 }
             }
+        }
+        
+        // preOrderRecursive(root, preOrder);
+        
+        
+        return preOrder;
+    }
+    
+    private void preOrderRecursive(Node root, List<Integer> preOrder) {
+        if (Objects.isNull(root)) {
+            return;
+        }
+        
+        preOrder.add(root.val);
+        
+        if (Objects.nonNull(root.children)) {
+            root.children.forEach(node -> preOrderRecursive(node, preOrder));
         }
     }
 }
