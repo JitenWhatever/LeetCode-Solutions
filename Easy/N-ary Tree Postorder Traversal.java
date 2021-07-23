@@ -52,52 +52,65 @@ class Node {
 
 class Solution {
     public List<Integer> postorder(Node root) {
+        List<Integer> postOrder = new ArrayList<>();
         
-        // postOrderRecursive(root); // 0 ms
-        postOrderIterative(root); // 3 ms
-        return result;
-    }
-    
-    private List<Integer> result = new ArrayList<>();
-    
-    private void postOrderRecursive(Node root) {
-        
-        if(root == null) {
-            return ;
+        if (Objects.isNull(root)) {
+            return postOrder;
         }
         
-        for(Node node : root.children) {
-            postOrderRecursive(node);
-        }
+        // postOrderRecursive(root, postOrder); 
+        Stack<Node> stck = new Stack<>();
         
-        result.add(root.val);
-    }
-    
-    private void postOrderIterative(Node root) {
+        stck.push(root);
         
-        if(root == null) {
-            return ;
-        }
-        
-        Stack<Node> st = new Stack<>();
-        
-        st.push(root);
-        
-        while(!st.isEmpty()) {
-            root = st.peek();
-            
-            if(root.children != null) {
-                for(int index = root.children.size() - 1; index >= 0; --index) {
-                    st.push(root.children.get(index));
+        while(!stck.isEmpty()) {
+            root = stck.peek();
+            if (Objects.nonNull(root.children)) {
+                for (int index = root.children.size() - 1; index >= 0; --index) {
+                    stck.push(root.children.get(index));
                 }
-                
                 root.children = null;
-            }
-            else {
-                result.add(st.pop().val);
+            } else {
+                postOrder.add(stck.pop().val);
             }
         }
+        
+        return postOrder;
     }
     
+    private void postOrderRecursive(Node root, List<Integer> postOrder) {
+        if (Objects.isNull(root)) {
+            return;
+        }
+        
+        if (Objects.nonNull(root.children)) {
+            root.children.forEach(node -> {
+                postOrderRecursive(node, postOrder);
+            });
+        }
     
+        postOrder.add(root.val);
+    }
+}
+
+class Solution {
+  public List<Integer> postorder(Node root) {
+    LinkedList<Node> stack = new LinkedList<>();
+    LinkedList<Integer> output = new LinkedList<>();
+    if (root == null) {
+      return output;
+    }
+
+    stack.add(root);
+    while (!stack.isEmpty()) {
+      Node node = stack.pollLast();
+      output.addFirst(node.val);
+      for (Node item : node.children) {
+        if (item != null) {
+          stack.add(item);    
+        } 
+      }
+    }
+    return output;
+  }
 }
