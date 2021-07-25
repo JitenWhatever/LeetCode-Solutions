@@ -15,6 +15,19 @@ Given binary tree [3,9,20,null,null,15,7],
     /  \
    15   7
 return its minimum depth = 2.
+
+Input: root = [3,9,20,null,null,15,7]
+Output: 2
+Example 2:
+
+Input: root = [2,null,3,null,4,null,5,null,6]
+Output: 5
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 105].
+-1000 <= Node.val <= 1000
 */
 
 /**
@@ -32,26 +45,85 @@ return its minimum depth = 2.
  *     }
  * }
  */
+
+ // recursion
 class Solution {
     public int minDepth(TreeNode root) {
-        if(root == null) {
+        if (Objects.isNull(root)) {
             return 0;
         }
         
-        if(root.left == null && root.right == null) {
-            return 1;
-        } 
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);      
         
-        int l = minDepth(root.left);
-        int r = minDepth(root.right);
-        
-        if(root.left == null) {
-            return r + 1;
+        return (left == 0 || right == 0) ? left + right + 1 : 1 + Math.min(left, right);
+    }
+}
+
+ // BFS
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (Objects.isNull(root)) {
+            return 0;
         }
-        if(root.right == null) {
-            return l + 1;
+        
+        Queue<Pair<TreeNode, Integer>> Q = new LinkedList<>();
+        
+        Q.add(new Pair(root, 1));
+        int mindepth = 0;
+        
+        while (!Q.isEmpty()) {
+            Pair<TreeNode, Integer> P = Q.poll();
+            root = P.getKey();
+            mindepth = P.getValue();
+            
+            if (Objects.isNull(root.left) && Objects.isNull(root.right)) {
+                break;
+            }
+            
+            if (Objects.nonNull(root.left)) {
+                Q.add(new Pair(root.left, mindepth + 1));
+            }
+            
+            if (Objects.nonNull(root.right)) {
+                Q.add(new Pair(root.right, mindepth + 1));
+            }
         }
         
-        return Math.min(l, r) + 1;
+        return mindepth;
+    }
+}
+
+// DFS
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (Objects.isNull(root)) {
+            return 0;
+        }
+        
+        Stack<Pair<TreeNode, Integer>> S = new Stack<>();
+        
+        S.push(new Pair(root, 1));
+        int mindepth = Integer.MAX_VALUE;
+        
+        while (!S.isEmpty()) {
+            Pair<TreeNode, Integer> P = S.pop();
+            root = P.getKey();
+            int depth = P.getValue();
+            
+            if (Objects.isNull(root.left) && Objects.isNull(root.right)) {
+                mindepth = Math.min(mindepth, depth);
+            }
+            
+            if (Objects.nonNull(root.left)) {
+                S.push(new Pair(root.left, depth + 1));
+            }
+            
+            if (Objects.nonNull(root.right)) {
+                S.push(new Pair(root.right, depth + 1));
+            }
+        }
+        
+        return mindepth;
     }
 }
