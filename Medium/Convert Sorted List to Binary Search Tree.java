@@ -35,3 +35,116 @@ The number of nodes in head is in the range [0, 2 * 104].
 -105 <= Node.val <= 105
 */
 
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {   
+        return buildBST(head);
+    }
+    
+    private TreeNode buildBST(ListNode head) {
+        if (Objects.isNull(head)) {
+            return null;
+        }
+        
+        ListNode midNode = getRoot(head);
+        
+        TreeNode root = new TreeNode(midNode.val);
+        
+        if (head == midNode) {
+            return root;
+        }
+        
+        root.left = buildBST(head);
+        root.right = buildBST(midNode.next);
+        
+        return root;
+    }
+    
+    private ListNode getRoot(ListNode head) {
+        ListNode prevPtr = null;
+        ListNode slowPtr = head;
+        ListNode fastPtr = head;
+        
+        while (Objects.nonNull(fastPtr) && Objects.nonNull(fastPtr.next)) {
+            prevPtr = slowPtr;
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+        }
+        
+        if (Objects.nonNull(prevPtr)) {
+            prevPtr.next = null;
+        }
+        
+        return slowPtr;
+    }
+}
+
+// inorder
+class Solution {
+  public TreeNode sortedListToBST(ListNode head) {
+    int size = this.findSize(head);
+    this.head = head;
+    return buildBST(0, size - 1);
+  }
+    
+  private ListNode head;
+    
+  private TreeNode buildBST(int low, int high) {
+      if (low > high) {
+          return null;
+      }
+      
+      int mid = low + (high - low) / 2;
+      
+      TreeNode left = buildBST(low, mid - 1);
+      
+      TreeNode root = new TreeNode(this.head.val);
+     
+      root.left = left;
+      
+      this.head = this.head.next;
+      
+      TreeNode right = buildBST(mid + 1, high);
+      
+      root.right = right;
+      
+      return root;
+  }
+
+  private int findSize(ListNode head) {
+    ListNode ptr = head;
+    int size = 0;
+      
+    while (Objects.nonNull(ptr)) {
+      ptr = ptr.next;  
+      ++size;
+    }
+      
+    return size;
+  }
+
+}
