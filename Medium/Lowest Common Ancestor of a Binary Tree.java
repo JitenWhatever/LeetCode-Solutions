@@ -8,20 +8,29 @@ Given the following binary tree:  root = [3,5,1,6,2,0,8,null,null,7,4]
 https://assets.leetcode.com/uploads/2018/12/14/binarytree.png
 Example 1:
 
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+
+Example 2:
+https://assets.leetcode.com/uploads/2018/12/14/binarytree.png
 Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
 Output: 3
 Explanation: The LCA of nodes 5 and 1 is 3.
-Example 2:
 
-Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
-Output: 5
 Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+Example 3:
+
+Input: root = [1,2], p = 1, q = 2
+Output: 1
  
 
-Note:
+Constraints:
 
-All of the nodes' values will be unique.
-p and q are different and both values will exist in the binary tree.
+The number of nodes in the tree is in the range [2, 105].
+-109 <= Node.val <= 109
+All Node.val are unique.
+p != q
+p and q will exist in the tree.
 */
 
 /**
@@ -35,11 +44,7 @@ p and q are different and both values will exist in the binary tree.
  */
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null) {
-            return root;
-        }
-        
-        if(root.val == p.val || root.val == q.val) {
+        if(root == null|| root.val == p.val || root.val == q.val) {
             return root;
         }
         
