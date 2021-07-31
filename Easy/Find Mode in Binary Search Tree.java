@@ -29,3 +29,71 @@ The number of nodes in the tree is in the range [1, 104].
 
 Follow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).
 */
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int[] findMode(TreeNode root) {
+        this.modeCount = 0;
+        this.currentCount = 0;
+        this.maxCount = 0;
+        inOrderRecursive(root);
+        
+        this.modes = new int[modeCount];
+        this.modeCount = 0;
+        this.currentCount = 0;
+        
+        inOrderRecursive(root);
+        
+        return this.modes;
+    }
+    
+    private int[] modes;
+    private int currentVal;
+    private int currentCount;
+    private int maxCount;
+    private int modeCount;
+    
+    private void inOrderRecursive(TreeNode root) {
+        if (Objects.isNull(root)) {
+            return;
+        }
+        
+        inOrderRecursive(root.left);
+        updateMode(root.val);
+        inOrderRecursive(root.right);
+    }
+
+    private void updateMode(int val) {
+        if (val != this.currentVal) {
+            this.currentVal = val;
+            this.currentCount = 0;
+        }
+        ++this.currentCount;
+        
+        if (this.currentCount > this.maxCount) {
+            this.maxCount = this.currentCount;
+            this.modeCount = 1;
+        } else if (this.currentCount == this.maxCount){
+            if (Objects.nonNull(this.modes)) {
+                this.modes[this.modeCount] = currentVal;
+            }
+            ++this.modeCount;
+        }
+    }
+    
+}
