@@ -87,3 +87,63 @@ Constraints:
 0 <= s.length <= 200
 s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.
 */
+
+class Solution {
+    public int myAtoi(String s) {
+        
+        if (s.isEmpty()) {
+            return 0;
+        }
+        int index = 0;
+        while (index < s.length() && s.charAt(index++) == ' ') {};
+        
+        --index;
+        int sign = 1;
+        if ( index < s.length()) {
+            if (s.charAt(index) == '-') {
+                sign = -1;
+                ++index;
+            }
+            else if (s.charAt(index) == '+') {
+                ++index;
+            }
+        }
+        
+        long result = 0;
+        while (index < s.length()) {
+            int num = s.charAt(index++) - '0';
+            if (num >= 0 && num <= 9) {
+                result = result * 10 + num;
+            } else {
+                break;
+            }
+            if (result*sign < Integer.MIN_VALUE) {
+                return Integer.MIN_VALUE;
+            }
+        
+            if (result*sign > Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            
+        }
+        result = result*sign; 
+        
+        return (int)result;
+    }
+}
+
+public static int myAtoi(String str) {
+    if (str.isEmpty()) return 0;
+    int sign = 1, base = 0, i = 0;
+    while (str.charAt(i) == ' ')
+        i++;
+    if (str.charAt(i) == '-' || str.charAt(i) == '+')
+        sign = str.charAt(i++) == '-' ? -1 : 1;
+    while (i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+        if (base > Integer.MAX_VALUE / 10 || (base == Integer.MAX_VALUE / 10 && str.charAt(i) - '0' > 7)) {
+            return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
+        base = 10 * base + (str.charAt(i++) - '0');
+    }
+    return base * sign;
+}
