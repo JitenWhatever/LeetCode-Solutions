@@ -65,19 +65,19 @@ class Solution {
     
     private void generate(int k, int index, int target, List<Integer> current) {
         
-        if(target == 0 && current.size() == k){
+        if(target == 0 && current.size() == k){ // k == 0
             
             result.add(new ArrayList(current));
             return ;
         }
         
-        if(target < 0 || current.size() == k) {
+        if(target < 0 || current.size() == k) { // k == 0
             return ;
         }
         
         for(int i = index; i <= 9; i++) {
             current.add(i);
-            generate(k, i + 1, target - i, current);
+            generate(k, i + 1, target - i, current); // k-1
             current.remove(current.size() - 1);
         }
     }
