@@ -50,3 +50,55 @@ class Solution {
         return dp[target];
     }
 }
+
+class Solution {
+    private HashMap<Integer, Integer> memo;
+
+    public int combinationSum4(int[] nums, int target) {
+        // minor optimization
+        // Arrays.sort(nums);
+        memo = new HashMap<>();
+        return combs(nums, target);
+    }
+
+    private int combs(int[] nums, int remain) {
+        if (remain == 0)
+            return 1;
+        if (memo.containsKey(remain))
+            return memo.get(remain);
+
+        int result = 0;
+        for (int num : nums) {
+            if (remain - num >= 0)
+                result += combs(nums, remain - num);
+            // minor optimizaton, early stopping
+            // else
+            //     break;
+        }
+        memo.put(remain, result);
+        return result;
+    }
+}
+
+private int[] dp;
+
+public int combinationSum4(int[] nums, int target) {
+    dp = new int[target + 1];
+    Arrays.fill(dp, -1);
+    dp[0] = 1;
+    return helper(nums, target);
+}
+
+private int helper(int[] nums, int target) {
+    if (dp[target] != -1) {
+        return dp[target];
+    }
+    int res = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (target >= nums[i]) {
+            res += helper(nums, target - nums[i]);
+        }
+    }
+    dp[target] = res;
+    return res;
+}
