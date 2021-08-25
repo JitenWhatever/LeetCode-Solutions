@@ -4,7 +4,7 @@ The robot can only move either down or right at any point in time.
 The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
 Now consider if some obstacles are added to the grids. How many unique paths would there be?
 
-An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+An obstacle and empty space is marked as 1 and 0 respectively in the grid. 
 
 Note: m and n will be at most 100.
 
@@ -25,7 +25,9 @@ There are two ways to reach the bottom-right corner:
 
 Example 2:
 
-Input: obstacleGrid = [[0,1],[0,0]]
+Input: obstacleGrid = 
+[[0,1],
+[0,0]]
 Output: 1
  
 
