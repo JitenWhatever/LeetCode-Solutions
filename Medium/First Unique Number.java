@@ -127,6 +127,76 @@ class FirstUnique {
  * obj.add(value);
  */
 
+ class FirstUnique {
+
+    private Map<Integer, Node> numberToLocationMap;
+    private Node head, tail;
+    public FirstUnique(int[] nums) {
+        numberToLocationMap = new HashMap<>();
+        head = new Node(0);
+        tail = new Node(0);
+        head.next = tail;
+        tail.prev = head;
+        for (int num : nums) {
+            add(num);
+        }
+    }
+    
+    public int showFirstUnique() {
+        return head.next == tail ? -1 : head.next.val;
+    }
+    
+    public void add(int value) {
+        if (numberToLocationMap.containsKey(value)) {
+            Node node = numberToLocationMap.get(value);
+            deleteNode(node);
+        } else {
+            Node node = new Node(value);
+            numberToLocationMap.put(value, node);
+            insertAtEnd(node);
+        }
+    }
+    
+    
+    class Node {
+        Node prev, next;
+        int val;
+        
+        public Node(int val) {
+            this.val = val;
+        }
+    }
+    
+    private void deleteNode(Node node) {
+        Node nextNode = node.next;
+        Node prevNode = node.prev;
+        
+        if (Objects.nonNull(nextNode) && Objects.nonNull(prevNode)) {
+            prevNode.next = nextNode;
+            nextNode.prev = prevNode;
+            node.next = null;
+            node.prev = null;
+        }
+    }
+    
+    private void insertAtEnd(Node node) {
+        Node prevNode = tail.prev;
+        prevNode.next = node;
+        node.prev = prevNode;
+        node.next = tail;
+        tail.prev = node;
+    }
+}
+
+
+
+/**
+ * Your FirstUnique object will be instantiated and called as such:
+ * FirstUnique obj = new FirstUnique(nums);
+ * int param_1 = obj.showFirstUnique();
+ * obj.add(value);
+ */
+
 // Brute Force
  class FirstUnique {
 
