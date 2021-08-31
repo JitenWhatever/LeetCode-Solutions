@@ -45,3 +45,41 @@ Constraints:
 1 <= arr[i] <= 10^5
 1 <= d <= arr.length
 */
+
+
+class Solution {
+    public int maxJumps(int[] arr, int d) {
+        
+        int maxJumps = 1;
+        int size = arr.length;
+        this.dp = new Integer[size];
+        for (int index = 0; index < size; ++index) {
+            maxJumps = Math.max(maxJumps, recurse(arr, d, index));
+        }
+        
+        return maxJumps;
+        
+    }
+    
+    private Integer[] dp;
+    
+    private int recurse(int[] arr, int d, int currentIndex) {
+        if (Objects.nonNull(this.dp[currentIndex])) {
+            return this.dp[currentIndex];
+        }
+        
+        int maxJumps = 1;
+        int size = arr.length;
+        for (int right = currentIndex + 1; right <= 
+             Math.min(currentIndex + d, size - 1) && arr[currentIndex] > arr[right]; ++right) {
+            maxJumps = Math.max(maxJumps, 1 + recurse(arr, d, right));
+        }
+        
+         for (int left = currentIndex - 1; left >=  
+             Math.max(currentIndex - d, 0) && arr[currentIndex] > arr[left]; --left) {
+            maxJumps = Math.max(maxJumps, 1 + recurse(arr, d, left));
+        }
+    
+        return this.dp[currentIndex] = maxJumps;   
+    }
+}
