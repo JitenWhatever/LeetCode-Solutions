@@ -113,3 +113,59 @@ class UnionFind {
         return count;
     }
 }
+
+
+class Solution {
+    public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
+        int len = s.length();
+        
+        if (len == 0) {
+            return s;
+        }
+        
+        this.graph = new HashMap<>();
+        this.visited = new boolean[len];
+        this.indices = new TreeSet<>(); // component Indexes
+        this.characters = new ArrayList<>(); // component chracters
+        
+        for (List<Integer> pair : pairs) {
+            graph.computeIfAbsent(pair.get(0), key -> new ArrayList<>()).add(pair.get(1));
+            graph.computeIfAbsent(pair.get(1), key -> new ArrayList<>()).add(pair.get(0));
+        }
+        
+        char[] result = s.toCharArray();
+        for (int index = 0; index < len; ++index) {
+            if (!visited[index]) {
+                this.indices.clear();
+                this.characters.clear();
+                dfs(s, index);
+                Collections.sort(this.characters);
+                Iterator<Character> iterate = this.characters.iterator();
+                for (int itr : this.indices) {
+                    result[itr] = iterate.next();
+                }
+            }
+        }
+            
+        return new String(result); 
+    }
+    
+    private boolean[] visited;
+    private Map<Integer, List<Integer>> graph;
+    private Set<Integer> indices;
+    private List<Character> characters;
+    
+    private void dfs(String s, int index) {
+        visited[index] = true;
+        this.indices.add(index);
+        this.characters.add(s.charAt(index));
+        if (Objects.nonNull(this.graph.get(index))) {
+            for (int nbr : this.graph.get(index)) {
+                if (!visited[nbr]) {
+                    dfs(s, nbr);    
+                }
+            }
+        }
+        
+    }
+}
