@@ -181,3 +181,95 @@ class Solution {
         }
     }
 }
+
+
+class Solution {
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, Integer> varIndex  = new HashMap<>();
+        int M = equations.size();
+        int n = M *2;
+        UnionFind uf = new UnionFind(n);
+        int id = 0;
+        for(int i = 0 ;i < M; i++){
+            String v1 = equations.get(i).get(0);
+            String v2 = equations.get(i).get(1);
+            double q = values[i];
+            if(!varIndex.containsKey(v1)){
+                varIndex.put(v1,id++);
+            }
+            if(!varIndex.containsKey(v2)){
+                varIndex.put(v2,id++);
+            }
+            uf.union(varIndex.get(v1), varIndex.get(v2), q);
+        }
+        
+        double[] ans = new double[queries.size()];
+        for(int i = 0; i < queries.size(); i++){
+            String v1 = queries.get(i).get(0);
+            String v2 = queries.get(i).get(1);
+            if(!varIndex.containsKey(v1) || !varIndex.containsKey(v2)){
+                ans[i] = -1.0;
+            }else if(v1.equals(v2)){
+                ans[i] = 1.0;
+            }else{
+                ans[i] = uf.getQuotient(varIndex.get(v1), varIndex.get(v2));
+            }
+        }
+        return ans;
+    }    
+}
+
+class UnionFind{
+    int[] parent;
+    int[] rank;
+    double[] weight;
+    int count;
+    
+    public UnionFind(int size){
+        parent = new int[size];
+        rank = new int[size];
+        weight = new double[size];
+        for(int i = 0; i<size; i++){
+            parent[i] = i;
+            rank[i] =1;
+            weight[i] = 1.0;
+        }
+        count = size;
+    }
+    
+    public int find(int x){
+        if(x != parent[x]){
+            int origx = parent[x];
+            parent[x] = find(parent[x]);
+            weight[x] *= weight[origx];
+        }
+        return parent[x];
+    }
+    
+    public void union(int x, int y, double v){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX == rootY) return;
+        if(rank[rootX] > rank[rootY]){
+            parent[rootY] = rootX;
+            rank[rootX] += rank[rootY];
+            weight[rootY] = weight[x] / v / weight[y]; 
+        }else{
+            parent[rootX] = rootY;
+            rank[rootY] += rank[rootX];
+            weight[rootX] = weight[y]  * v /weight[x];
+        }
+        count--;  
+    }
+    
+    public boolean connected(int x, int y){
+        return find(x) == find(y);
+    }
+    
+    public double getQuotient(int x, int y){
+        if(connected(x, y)){
+            return weight[x] / weight[y];
+        }
+        return -1.0;
+    }
+}
