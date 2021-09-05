@@ -1,39 +1,79 @@
 /*
-Given a string s consists of upper/lower-case alphabets and empty space characters ' ', 
-return the length of last word (last word means the last appearing word if we loop from left to right) in the string.
+Given a string s consisting of some words separated by some number of spaces, return the length of the last word in the string.
 
-If the last word does not exist, return 0.
+A word is a maximal substring consisting of non-space characters only.
 
-Note: A word is defined as a maximal substring consisting of non-space characters only.
+ 
 
-Example:
+Example 1:
 
-Input: "Hello World"
+Input: s = "Hello World"
 Output: 5
+Explanation: The last word is "World" with length 5.
+Example 2:
+
+Input: s = "   fly me   to   the moon  "
+Output: 4
+Explanation: The last word is "moon" with length 4.
+Example 3:
+
+Input: s = "luffy is still joyboy"
+Output: 6
+Explanation: The last word is "joyboy" with length 6.
+ 
+
+Constraints:
+
+1 <= s.length <= 104
+s consists of only English letters and spaces ' '.
+There will be at least one word in s.
 */
 
 class Solution {
     public int lengthOfLastWord(String s) {
-     
-        int len = 0;
-        if(s == null || s.length() < 1) {
+        if(Objects.isNull(s) || s.isEmpty()) {
             return 0;
         }
         
-        int index = s.length() - 1;
-        while(index >= 0 && s.charAt(index) == ' ') {
+        int index = s.length() - 1, lengthOfLastWord = 0;
+        while(index >= 0 && s.charAt(index) == ' ') { // remove trailing zeros
             --index;
         }
         
         for(int i = index; i >= 0; --i) {
             if(s.charAt(i) != ' ') {
-                ++len;
+                ++lengthOfLastWord;
             }
             else {
                 break;
             }
         }
         
-        return len;
+        return lengthOfLastWord;
+    }
+}
+
+class Solution {
+    public int lengthOfLastWord(String s) {
+        int p = s.length(), length = 0;
+        while (p > 0) {
+            p--;
+            // we're in the middle of the last word
+            if (s.charAt(p) != ' ') {
+                length++;
+            }
+            // here is the end of last word
+            else if (length > 0) {
+                return length;
+            }
+        }
+        return length;
+  }
+}
+
+class Solution {
+    public int lengthOfLastWord(String s) {
+        s = s.trim();  // trim the trailing spaces in the string
+        return s.length() - s.lastIndexOf(" ") - 1;
     }
 }
