@@ -1,7 +1,7 @@
 /*
-Given two binary strings, return their sum (also a binary string).
+Given two binary strings a and b, return their sum as a binary string.
 
-The input strings are both non-empty and contains only characters 1 or 0.
+ 
 
 Example 1:
 
@@ -15,9 +15,9 @@ Output: "10101"
 
 Constraints:
 
-Each string consists only of '0' or '1' characters.
-1 <= a.length, b.length <= 10^4
-Each string is either "0" or doesn't contain any leading zero.
+1 <= a.length, b.length <= 104
+a and b consist only of '0' or '1' characters.
+Each string does not contain leading zeros except for the zero itself.
 */
 
 class Solution {
@@ -39,4 +39,27 @@ class Solution {
         
         return result;
     }
+}
+
+class Solution {
+  public String addBinary(String a, String b) {
+    return Integer.toBinaryString(Integer.parseInt(a, 2) + Integer.parseInt(b, 2));
+  }
+}
+
+import java.math.BigInteger;
+class Solution {
+  public String addBinary(String a, String b) {
+    BigInteger x = new BigInteger(a, 2);
+    BigInteger y = new BigInteger(b, 2);
+    BigInteger zero = new BigInteger("0", 2);
+    BigInteger carry, answer;
+    while (y.compareTo(zero) != 0) {
+      answer = x.xor(y);
+      carry = x.and(y).shiftLeft(1);
+      x = answer;
+      y = carry;
+    }
+    return x.toString(2);
+  }
 }
