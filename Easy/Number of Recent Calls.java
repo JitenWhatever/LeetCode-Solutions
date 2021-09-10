@@ -29,25 +29,27 @@ recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002], range is [2,3002]
 
 Constraints:
 
-1 <= t <= 109
+1 <= t <= 10^9
 Each test case will call ping with strictly increasing values of t.
-At most 104 calls will be made to ping.
+At most 10^4 calls will be made to ping.
 */
 
 class RecentCounter {
 
-    private Queue<Integer> Q;
+    private Queue<Integer> window;
+    private final int SIZE = 3000;
     public RecentCounter() {
-        Q = new LinkedList<>();
+        this.window = new LinkedList<>();
     }
     
     public int ping(int t) {
-        Q.add(t);
-        while(Q.peek() < t - 3000) {
-            Q.poll();
+        this.window.add(t);
+        
+        while (this.window.peek() < t - this.SIZE) {
+            this.window.poll(); // keep calls for window 3000 only
         }
         
-        return Q.size();
+        return this.window.size();
     }
 }
 
