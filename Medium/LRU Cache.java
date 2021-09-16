@@ -1,8 +1,10 @@
 /*
-Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
+Design and implement a data structure for Least Recently Used (LRU) cache. 
+It should support the following operations: get and put.
 
 get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
-put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+put(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
 
 The cache is initialized with a positive capacity.
 
@@ -22,74 +24,120 @@ cache.put(4, 4);    // evicts key 1
 cache.get(1);       // returns -1 (not found)
 cache.get(3);       // returns 3
 cache.get(4);       // returns 4
-*/
+Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
 
+Implement the LRUCache class:
+
+LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+int get(int key) Return the value of the key if the key exists, otherwise return -1.
+void put(int key, int value) Update the value of the key if the key exists. 
+Otherwise, add the key-value pair to the cache. 
+If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+The functions get and put must each run in O(1) average time complexity.
+
+Example 1:
+
+Input
+["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+Output
+[null, null, null, 1, null, -1, null, -1, 3, 4]
+
+Explanation
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // cache is {1=1}
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+lRUCache.get(1);    // return 1
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+lRUCache.get(4);    // return 4
+ 
+
+Constraints:
+
+1 <= capacity <= 3000
+0 <= key <= 10^4
+0 <= value <= 10^5
+At most 2 * 10^5 calls will be made to get and put.
+*/
 class LRUCache {
-    
-    class Node{
-        int key;
-        int val;
-        Node next;
-        Node prev;
-    }
-    
-    final Node head = new Node();
-    final Node tail = new Node();
-    Map<Integer, Node> mp;
-    int size;
-    
+
+    private DLL dll;
+    private Map<Integer, Node> keyToNodeMap;
     public LRUCache(int capacity) {
-        mp = new HashMap(capacity);
-        size = capacity;
-        head.next = tail;
-        tail.prev = head;
+        this.dll = new DLL(capacity);
+        this.keyToNodeMap = new HashMap<>();
     }
     
-    public void add(Node node){
-        Node headNext = head.next;
-        head.next = node;
-        node.prev = head;  
-        node.next = headNext;
-        headNext.prev = node;
+    public int get(int key) {
+        int found = -1;
+        Node node = this.keyToNodeMap.get(key);
+        if(Objects.nonNull(node)){
+            found = node.value;
+            this.dll.remove(node);
+            this.dll.add(node);
+        }
+        
+        return found;
     }
     
-    public void remove(Node node){
+    public void put(int key, int value) {
+        Node node  = this.keyToNodeMap.get(key);
+        if(Objects.nonNull(node)){
+            this.dll.remove(node);
+            node.value = value;
+            this.dll.add(node);
+        }
+        else{
+            if(this.keyToNodeMap.size() == this.dll.capacity){
+                this.keyToNodeMap.remove(this.dll.tail.prev.key);
+                this.dll.remove(this.dll.tail.prev);
+            }
+            
+            Node newNode = new Node(key, value);
+            this.keyToNodeMap.put(key, newNode);
+            this.dll.add(newNode);
+        }
+    }
+}
+
+class DLL {
+    Node head, tail;
+    int capacity;
+    public DLL(int capacity) {
+        this.capacity = capacity;
+        this.head = new Node(-1, -1);
+        this.tail = new Node(-1, -1);
+        this.head.next = this.tail;
+        this.tail.prev = this.head;
+    }
+    
+    public void remove(Node node) {
         Node nextNode = node.next;
         Node prevNode = node.prev;
         nextNode.prev = prevNode;
         prevNode.next = nextNode;
     }
-    public int get(int key) {
-        int ans = -1;
-        Node node = mp.get(key);
-        if(node != null){
-            ans = node.val;
-            remove(node);
-            add(node);
-        }
-        
-        return ans;
-    }
     
-    public void put(int key, int value) {
-        Node node  = mp.get(key);
-        if(node != null){
-            remove(node);
-            node.val = value;
-            add(node);
-        }
-        else{
-            if(mp.size() == size){
-                mp.remove(tail.prev.key);
-                remove(tail.prev);
-            }
-            
-            Node newNode = new Node();
-            newNode.key = key;
-            newNode.val = value;
-            mp.put(key, newNode);
-            add(newNode);
-        }
+    public void add(Node node) {
+        Node headNext = this.head.next;
+        this.head.next = node;
+        node.prev = this.head;
+        node.next = headNext;
+        headNext.prev = node;
+    }
+}
+
+class Node {
+    Node prev, next;
+    int value, key;
+    
+    public Node (int key, int value) {
+        this.key = key;
+        this.value = value;
     }
 }
 
@@ -99,4 +147,3 @@ class LRUCache {
  * int param_1 = obj.get(key);
  * obj.put(key,value);
  */
-
