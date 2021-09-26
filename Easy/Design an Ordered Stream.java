@@ -44,3 +44,27 @@ Each call to insert will have a unique id.
 Exactly n calls will be made to insert.
 */
 
+class OrderedStream {
+    private int ptr;
+    private String[] orders;
+    public OrderedStream(int n) {
+        this.ptr = 0;
+        this.orders = new String[n];
+    }
+    
+    public List<String> insert(int idKey, String value) {
+        List<String> result = new ArrayList<>();
+        this.orders[idKey - 1] = value;
+        while (this.ptr < this.orders.length && this.orders[this.ptr] != null) {
+            result.add(this.orders[this.ptr]);
+            ++this.ptr;
+        }
+        return result;
+    }
+}
+
+/**
+ * Your OrderedStream object will be instantiated and called as such:
+ * OrderedStream obj = new OrderedStream(n);
+ * List<String> param_1 = obj.insert(idKey,value);
+ */
