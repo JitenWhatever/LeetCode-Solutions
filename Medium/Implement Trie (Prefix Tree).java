@@ -1,37 +1,53 @@
 /*
-Implement a trie with insert, search, and startsWith methods.
+A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. 
+There are various applications of this data structure, such as autocomplete and spellchecker.
 
-Example:
+Implement the Trie class:
 
+Trie() Initializes the trie object.
+void insert(String word) Inserts the string word into the trie.
+boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), 
+and false otherwise.
+boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
+ 
+
+Example 1:
+
+Input
+["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+Output
+[null, null, true, false, true, null, true]
+
+Explanation
 Trie trie = new Trie();
-
 trie.insert("apple");
-trie.search("apple");   // returns true
-trie.search("app");     // returns false
-trie.startsWith("app"); // returns true
-trie.insert("app");   
-trie.search("app");     // returns true
+trie.search("apple");   // return True
+trie.search("app");     // return False
+trie.startsWith("app"); // return True
+trie.insert("app");
+trie.search("app");     // return True
+ 
 
-Note:
-    You may assume that all inputs are consist of lowercase letters a-z.
-    All inputs are guaranteed to be non-empty strings.
+Constraints:
+
+1 <= word.length, prefix.length <= 2000
+word and prefix consist only of lowercase English letters.
+At most 3 * 10^4 calls in total will be made to insert, search, and startsWith.
 */
 
 class Trie {
 
     private TrieNode root;
-    /** Initialize your data structure here. */
     public Trie() {
-        root = new TrieNode();
+        this.root = new TrieNode();
     }
     
-    /** Inserts a word into the trie. */
     public void insert(String word) {
-        TrieNode node = root;
+        TrieNode node = this.root;
         
-        for(int index = 0; index < word.length(); ++index) {
-            char  ch = word.charAt(index);
-            if(!node.containsKey(ch)) {
+        for (char ch : word.toCharArray()) {
+            if (!node.containsKey(ch)) {
                 node.put(ch, new TrieNode());
             }
             
@@ -41,58 +57,56 @@ class Trie {
         node.setEnd();
     }
     
+    public boolean search(String word) {
+        TrieNode node = searchPrefix(word);
+        
+        return Objects.nonNull(node) && node.isEnd();
+        
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode node = searchPrefix(prefix);
+        
+        return Objects.nonNull(node);
+    }
+    
     private TrieNode searchPrefix(String word) {
-        TrieNode node = root;
-        for(int index = 0; index < word.length(); ++index) {
-            char ch = word.charAt(index);
-            if(node.containsKey(ch)) {
+        TrieNode node = this.root;
+        
+        for (char ch : word.toCharArray()) {
+            if (node.containsKey(ch)) {
                 node = node.get(ch);
-            }
-            else {
+            } else {
                 return null;
             }
         }
         
         return node;
     }
-    
-    /** Returns if the word is in the trie. */
-    public boolean search(String word) {
-        TrieNode node = searchPrefix(word);
-        return node != null && node.isEnd();
-    }
-    
-    /** Returns if there is any word in the trie that starts with the given prefix. */
-    public boolean startsWith(String prefix) {
-        TrieNode node = searchPrefix(prefix);
-        return node != null;
-    }
 }
 
 class TrieNode {
+    private int limit = 26;
     private TrieNode[] links;
-    
-    private final int limit = 26;
-    
     private boolean isEnd;
     
-    public TrieNode(){
-        links = new TrieNode[limit];
+    public TrieNode() {
+        this.links = new TrieNode[this.limit];  
     }
     
-    public boolean containsKey(char key){
-        return links[key - 'a'] != null ;
+    public boolean containsKey(char key) {
+        return Objects.nonNull(this.links[key - 'a']);
     }
     
-    public TrieNode get(char ch){
-        return links[ch - 'a'];
+    public TrieNode get(char key) {
+        return this.links[key - 'a'];
     }
     
-    public void put(char ch, TrieNode node) {
-        links[ch - 'a'] = node;
+    public void put(char key, TrieNode node) {
+        this.links[key - 'a'] = node;
     }
     
-    
+     
     public void setEnd() {
         isEnd = true;
     }
