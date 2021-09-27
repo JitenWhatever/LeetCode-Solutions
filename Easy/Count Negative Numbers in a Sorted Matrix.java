@@ -65,44 +65,6 @@ class Solution {
 // O(M + N)
 class Solution {
     public int countNegatives(int[][] grid) {
-        
-        if(grid == null || grid.length == 0) {
-            return 0;
-        }
-        
-        int negativeNumbers = 0;
-        
-        for(int row = 0; row < grid.length; ++row) {
-            int index = firstIndex(grid[row]);
-            if(grid[row][index] < 0)
-                negativeNumbers += (grid[row].length - index); 
-            // System.out.println(index);
-        }
-        
-        return negativeNumbers;
-    }
-    
-    private int firstIndex(int[] nums) {
-        int index = -1;
-        int low = 0; 
-        int high = nums.length - 1;
-        
-        while(low < high) {
-            int mid = low + (high - low) / 2;
-            
-            if(nums[mid] < 0) {
-                high = mid;
-            }
-            else {
-                low = mid + 1;
-                index = low;
-            }
-        }
-        
-        return low;
-    }
-}class Solution {
-    public int countNegatives(int[][] grid) {
         int M = grid.length, N = grid[0].length, row = 0, col = N - 1, negativeNumbers = 0;
     
         while (row < M) {
