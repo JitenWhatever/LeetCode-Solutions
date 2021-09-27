@@ -27,7 +27,6 @@ Constraints:
 2 <= nums.length <= 100
 nums.length % 2 == 0
 1 <= nums[i] <= 100
-
 */
 
 class Solution {
