@@ -1,7 +1,6 @@
 /*
-Given a m * n matrix grid which is sorted in non-increasing order both row-wise and column-wise. 
-
-Return the number of negative numbers in grid.
+Given a m x n matrix grid which is sorted in non-increasing order both row-wise and column-wise, 
+return the number of negative numbers in grid.
 
  
 
@@ -30,8 +29,40 @@ m == grid.length
 n == grid[i].length
 1 <= m, n <= 100
 -100 <= grid[i][j] <= 100
+ 
+
+Follow up: Could you find an O(n + m) solution?
 */
 
+// O(N*M)
+class Solution {
+    public int countNegatives(int[][] grid) {
+        int M = grid.length, N = grid[0].length, row = 0, col = N - 1, negativeNumbers = 0;
+        for (int r = 0; r < M; ++r) {
+            for (int c = 0; c < N; ++c) {
+                negativeNumbers += (grid[r][c]  < 0 ? 1 : 0);
+            }
+        }
+        return negativeNumbers;
+    }
+}
+// O(N + M)
+class Solution {
+    public int countNegatives(int[][] grid) {
+        int M = grid.length, N = grid[0].length, row = 0, col = N - 1, negativeNumbers = 0;
+        while (row < M && col >= 0) {
+            if (grid[row][col] < 0) {
+                --col;
+                negativeNumbers += M - row; 
+            }else {
+                ++row;
+            }
+        }
+        return negativeNumbers;
+    }
+}
+
+// O(M + N)
 class Solution {
     public int countNegatives(int[][] grid) {
         
@@ -65,6 +96,38 @@ class Solution {
             else {
                 low = mid + 1;
                 index = low;
+            }
+        }
+        
+        return low;
+    }
+}class Solution {
+    public int countNegatives(int[][] grid) {
+        int M = grid.length, N = grid[0].length, row = 0, col = N - 1, negativeNumbers = 0;
+    
+        while (row < M) {
+            int index = binarySearch(grid[row], N);
+            if (grid[row][index] < 0) {
+                negativeNumbers += N - index;
+            }
+            
+            ++row;
+        }
+        
+        return negativeNumbers;
+    }
+    
+    private int binarySearch(int[] nums, int N) {
+        int low = 0, high = N - 1;
+        
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            
+            if (nums[mid] < 0) {
+                high = mid;
+            } else {
+                low = mid + 1;
+                
             }
         }
         
