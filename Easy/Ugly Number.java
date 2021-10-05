@@ -1,27 +1,33 @@
 /*
-Write a program to check whether a given number is an ugly number.
+An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
 
-Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
+Given an integer n, return true if n is an ugly number.
 
 Example 1:
 
-Input: 6
+Input: n = 6
 Output: true
 Explanation: 6 = 2 × 3
 Example 2:
 
-Input: 8
+Input: n = 8
 Output: true
 Explanation: 8 = 2 × 2 × 2
 Example 3:
 
-Input: 14
-Output: false 
-Explanation: 14 is not ugly since it includes another prime factor 7.
-Note:
+Input: n = 14
+Output: false
+Explanation: 14 is not ugly since it includes the prime factor 7.
+Example 4:
 
-1 is typically treated as an ugly number.
-Input is within the 32-bit signed integer range: [−231,  231 − 1].
+Input: n = 1
+Output: true
+Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+ 
+
+Constraints:
+
+-2^31 <= n <= 2^31 - 1
 */
 
 class Solution {
@@ -48,4 +54,22 @@ class Solution {
         
         return true;
     }
+
+}
+
+class Solution {
+    public boolean isUgly(int num) {
+        if(num == 0) {
+            return false;
+        }
+        
+       for (int i=2; i<6 && num>0; i++) {
+            while (num % i == 0) {
+                num /= i;
+            }
+       }
+        
+        return num == 1;
+    }
+
 }
