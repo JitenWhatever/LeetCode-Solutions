@@ -1,36 +1,48 @@
 /*
-Given a linked list, determine if it has a cycle in it.
-To represent a cycle in the given linked list,
-we use an integer pos which represents the position (0-indexed) in the linked list where tail connects to. 
-If pos is -1, then there is no cycle in the linked list.
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. 
+Internally, pos is used to denote the index of the node that tail's next pointer is connected to. 
+Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
 
 Example 1:
 
-Input: head = [3,2,0,-4], pos = 1
-Output: true
-Explanation: There is a cycle in the linked list, where tail connects to the second node.
 (3)______(2)______(0)______(-4)
         |                   |
         |___________________|
 
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
 Example 2:
 
-Input: head = [1,2], pos = 0
-Output: true
-Explanation: There is a cycle in the linked list, where tail connects to the first node.
 (1)______(2)
  |        |
  |________|
 
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+
 Example 3:
+
+(1)
 
 Input: head = [1], pos = -1
 Output: false
 Explanation: There is no cycle in the linked list.
-(1)
 
-Follow up:
-    Can you solve it using O(1) (i.e. constant) memory?
+Constraints:
+
+The number of the nodes in the list is in the range [0, 10^4].
+-10^5 <= Node.val <= 10^5
+pos is -1 or a valid index in the linked-list.
+ 
+
+Follow up: Can you solve it using O(1) (i.e. constant) memory?
 */
 
 /**
@@ -56,6 +68,22 @@ public class Solution {
             if(slow == fast){
                 return true;
             }
+        }
+        
+        return false;
+    }
+}
+
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> seen = new HashSet<>();
+        
+        while (head != null) {
+            if (!seen.add(head.next)) {
+                return true;
+            }
+            head = head.next;
         }
         
         return false;
