@@ -20,3 +20,39 @@ Constraints:
 
 0 <= n <= 5 * 10^6
 */
+
+class Solution {
+    public int countPrimes(int n) {
+        if (n <= 2) {
+            return 0;
+        }
+        
+        this.iSNotPrimes = new boolean[n];
+        
+        this.sieve(n);
+        
+        int primes = 0;
+        
+        for (int num = 2; num < n; ++num) {
+            if (!iSNotPrimes[num]) {
+                ++primes;
+            }
+        }
+        
+        return primes;
+    }
+    
+    private boolean[] iSNotPrimes;
+    
+    
+    private void sieve(int n) {
+        for (int num = 2; num*num <= n; ++num) {
+            if (!this.iSNotPrimes[num]) {
+                for (int mul = num * num; mul < n; mul += num) {
+                    this.iSNotPrimes[mul] = true;
+                }
+            }
+        }
+    }
+    
+}
