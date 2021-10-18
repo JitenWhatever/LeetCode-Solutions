@@ -1,5 +1,6 @@
 /*
-On an infinite plane, a robot initially stands at (0, 0) and faces north.  The robot can receive one of three instructions:
+On an infinite plane, a robot initially stands at (0, 0) and faces north.  
+The robot can receive one of three instructions:
 
 "G": go straight 1 unit;
 "L": turn 90 degrees to the left;
@@ -73,5 +74,28 @@ class Solution {
         }
     
         return false;
+    }
+}
+
+class Solution {
+    public boolean isRobotBounded(String instructions) {
+        int[][] dirs = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        
+        int x = 0, y = 0;
+        
+        int currDir = 0;
+        
+        for (int instruction : instructions.toCharArray()) {
+            if (instruction == 'L') {
+                currDir = (currDir + 3) % 4;
+            } else if (instruction == 'R') {
+                currDir = (currDir + 1) % 4;
+            } else {
+                x += dirs[currDir][0];
+                y += dirs[currDir][1];
+            }
+        }
+        
+        return (x == 0 && y == 0) || (currDir != 0);
     }
 }
