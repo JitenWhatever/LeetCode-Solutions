@@ -22,25 +22,35 @@ n == height.length
 0 <= height[i] <= 10^5
 */
 
-int trap(vector<int>& height)
-{
-    if(height.empty())
-        return 0;
-    int ans = 0;
-    int size = height.size();
-    vector<int> left_max(size), right_max(size);
-    left_max[0] = height[0];
-    for (int i = 1; i < size; i++) {
-        left_max[i] = max(height[i], left_max[i - 1]);
+class Solution {
+    public int trap(int[] height) {
+        
+        if (height == null || height.length == 0) {
+            return -1;
+        }
+        
+        int result = 0;
+        int width = height.length;
+        int[] leftMax = new int[width];
+        int[] rightMax = new int[width];
+        
+        leftMax[0] = height[0];
+        for (int index = 1; index < width; ++index) {
+            leftMax[index] = Math.max(height[index], leftMax[index - 1]);
+        }
+        
+        rightMax[width - 1] = height[width - 1];
+         for (int index = width - 2; index >= 0; --index) {
+            rightMax[index] = Math.max(height[index], rightMax[index + 1]);
+        }
+        
+         for (int index = 1; index < width - 1; ++index) {
+            result += Math.min(leftMax[index], rightMax[index]) - height[index];
+        }
+        
+        
+        return result;
     }
-    right_max[size - 1] = height[size - 1];
-    for (int i = size - 2; i >= 0; i--) {
-        right_max[i] = max(height[i], right_max[i + 1]);
-    }
-    for (int i = 1; i < size - 1; i++) {
-        ans += min(left_max[i], right_max[i]) - height[i];
-    }
-    return ans;
 }
 
 int trap(vector<int>& height)
