@@ -26,6 +26,13 @@ All the values of routes[i] are unique.
 sum(routes[i].length) <= 10^5
 0 <= routes[i][j] < 10^6
 0 <= source, target < 10^6
+
+
+
+The first part loop on routes and record stop to routes mapping in to_route.
+The second part is general bfs. Take a stop from queue and find all connected route.
+The hashset seen record all visited stops and we won't check a stop for twice.
+We can also use a hashset to record all visited routes, or just clear a route after visit.
 */
 
 
