@@ -1,15 +1,24 @@
 /*
-Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
+Given a string s, return true if the s can be palindrome after deleting at most one character from it.
 
 Example 1:
-Input: "aba"
-Output: True
+
+Input: s = "aba"
+Output: true
 Example 2:
-Input: "abca"
-Output: True
+
+Input: s = "abca"
+Output: true
 Explanation: You could delete the character 'c'.
-Note:
-The string will only contain lowercase characters a-z. The maximum length of the string is 50000
+Example 3:
+
+Input: s = "abc"
+Output: false
+ 
+Constraints:
+
+1 <= s.length <= 10^5
+s consists of lowercase English letters.
 */
 
 class Solution {
