@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.PriorityQueue;
+
 /*
 You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
@@ -37,17 +43,7 @@ lists[i] is sorted in ascending order.
 The sum of lists[i].length won't exceed 10^4.
 */
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution { 
+class mergeKSortedLists { 
     public ListNode mergeKLists(ListNode[] lists) { 
         List<Integer> result = new ArrayList<>();
         
@@ -78,24 +74,19 @@ class Solution {
             }
         }
     }
-}
+
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
 //  Sorting
 // Time complexity : O(NlogN) 
 // Space complexity : O(N)
 
-
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution { 
-    public ListNode mergeKLists(ListNode[] lists) { 
+    public ListNode mergeKLists2(ListNode[] lists) { 
         int minIndex = 0;
         ListNode dummy = new ListNode(0);
         ListNode head = dummy;
@@ -128,25 +119,11 @@ class Solution {
         return dummy.next;
     }
 
-}
-
 // compare one by one
 // Time complexity : O(kN)
 // Space complexity : O(N)
 
-
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists3(ListNode[] lists) {
         PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
         
         for (ListNode list : lists) {
@@ -170,26 +147,12 @@ class Solution {
         
         return dummy.next;
     }
-}
 
 // Optimize Approach 2 by Priority Queue
 // Time complexity : O(Nlogk) 
-// Space complexity : O(1)
+// Space complexity : O(N)
 
-
-
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists4(ListNode[] lists) {
         
         if (Objects.isNull(lists) || lists.length == 0) {
             return null;
@@ -234,23 +197,11 @@ class Solution {
         
         return dummy.next;
     }
-}
 // Merge with Divide And Conquer
 // Time complexity : O(NlogK) 
 // Space complexity : O(1)
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists5(ListNode[] lists) {
         
         if (Objects.isNull(lists) || lists.length == 0) {
             return null;
@@ -268,32 +219,5 @@ class Solution {
         }
        
         return lists[0];
-    }
-    
-    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode(0);
-        ListNode head = dummy;
-        
-        while (Objects.nonNull(l1) && Objects.nonNull(l2)) {
-            if (l1.val < l2.val) {
-                head.next = l1;
-                head = head.next;
-                l1 = l1.next;
-            } else {
-                head.next = l2;
-                head = head.next;
-                l2 = l2.next;
-            }
-        }
-        
-        if (Objects.isNull(l1)) {
-            head.next = l2;
-        }
-        
-        if (Objects.isNull(l2)) {
-            head.next = l1;
-        }
-        
-        return dummy.next;
     }
 }
