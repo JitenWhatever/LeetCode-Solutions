@@ -1,3 +1,10 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
 /*
 A transformation sequence from word beginWord to word 
 endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
@@ -33,7 +40,7 @@ beginWord != endWord
 All the words in wordList are unique.
 */
 
-class Solution {
+class WordLadder {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> visited = new HashSet<>(wordList);
         
@@ -88,13 +95,12 @@ class Solution {
         
         return nbrs;
     }
-}
+
 
 // Time Complexity: O(M^2*N)
 // Space Complexity: O(M^2*N)
 
-class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+    public int ladderLength1(String beginWord, String endWord, List<String> wordList) {
         Set<String> visited = new HashSet<>(wordList);
         
         if (!visited.contains(endWord)) {
@@ -136,24 +142,7 @@ class Solution {
         return 0;
         
     }
-    
-    private List<String> calculateNeighbors(String currentWord) {
-        char[] chars = currentWord.toCharArray();
-        List<String> nbrs = new ArrayList<>();
-        
-        for (int itr = 0; itr < chars.length; ++itr) {
-            char ch = chars[itr];
-            for (char c = 'a'; c <= 'z'; ++c) {
-                if (ch != c) {
-                    chars[itr] = c;
-                    nbrs.add(new String(chars));
-                }
-            }
-            chars[itr] = ch;
-        }
-        
-        return nbrs;
-    }
+
 }
 
 // Time Complexity: O(M^2*N)
