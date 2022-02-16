@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /*
 Given a linked list, swap every two adjacent nodes and return its head. 
 You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
@@ -24,25 +26,26 @@ The number of nodes in the list is in the range [0, 100].
 0 <= Node.val <= 100
 */
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
+class SwapNodesInPairs {
+    
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
+
     public ListNode swapPairs(ListNode head) {
         
         if (Objects.isNull(head)) {
             return head;
         }
+
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         ListNode node = head;
+
         while (node != null) {
             int temp = node.val;
             if (node.next == null) {
@@ -57,18 +60,8 @@ class Solution {
         return dummy.next;
     
     }
-}
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public ListNode swapPairs(ListNode head) {
+    public ListNode swapPairs1(ListNode head) {
 
         // If the list has no node or has only one node left.
         if ((head == null) || (head.next == null)) {
@@ -80,24 +73,14 @@ class Solution {
         ListNode secondNode = head.next;
 
         // Swapping
-        firstNode.next  = swapPairs(secondNode.next);
+        firstNode.next  = swapPairs1(secondNode.next);
         secondNode.next = firstNode;
 
         // Now the head is the second node
         return secondNode;
     }
-}
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public ListNode swapPairs(ListNode head) {
+    public ListNode swapPairs2(ListNode head) {
 
         // Dummy node acts as the prevNode for the head node
         // of the list and hence stores pointer to the head node.
