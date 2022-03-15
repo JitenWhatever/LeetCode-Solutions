@@ -1,3 +1,7 @@
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
 /*
 Given a string s of '(' , ')' and lowercase English characters.
 
@@ -33,7 +37,7 @@ Constraints:
 s[i] is either'(' , ')', or lowercase English letter.
 */
 
-class Solution {
+public class MinimumRemoveToMakeValidParentheses {
     public String minRemoveToMakeValid(String s) {
         StringBuilder sb = new StringBuilder();
         
@@ -62,9 +66,6 @@ class Solution {
         
         return sb.toString();
     }
-}
-
-class Solution {
 
     private StringBuilder removeInvalidClosing(CharSequence string, char open, char close) {
         StringBuilder sb = new StringBuilder();
@@ -82,16 +83,13 @@ class Solution {
         return sb;
     }
 
-    public String minRemoveToMakeValid(String s) {
+    public String minRemoveToMakeValid1(String s) {
         StringBuilder result = removeInvalidClosing(s, '(', ')');
         result = removeInvalidClosing(result.reverse(), ')', '(');
         return result.reverse().toString();
     }
-}
 
-class Solution {
-
-    public String minRemoveToMakeValid(String s) {
+    public String minRemoveToMakeValid2(String s) {
 
         // Pass 1: Remove all invalid ")"
         StringBuilder sb = new StringBuilder();
