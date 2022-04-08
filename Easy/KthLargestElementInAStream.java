@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 /**
 Design a class to find the kth largest element in a stream. 
 Note that it is the kth largest element in the sorted order, not the kth distinct element.
@@ -38,7 +40,7 @@ It is guaranteed that there will be at least k elements in the array when you se
 
 class KthLargest {
 
-    private static int k;
+    private int k;
     private PriorityQueue<Integer> minHeap;
     public KthLargest(int k, int[] nums) {
         this.k = k;
