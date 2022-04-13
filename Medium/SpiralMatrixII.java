@@ -17,7 +17,7 @@ Constraints:
 1 <= n <= 20
 */
 
-class Solution {
+class SpiralMatrixII {
     public int[][] generateMatrix(int n) {
         int[][] matrix = new int[n][n];
         
@@ -62,10 +62,8 @@ class Solution {
         
         return matrix;
     }
-}
 
-class Solution {
-    public int[][] generateMatrix(int n) {
+    public int[][] generateMatrix1(int n) {
         int[][] result = new int[n][n];
         int cnt = 1;
         int dir[][] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
