@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /*
 Design a HashMap without using any built-in hash table libraries.
 
@@ -33,8 +37,8 @@ myHashMap.get(2);    // return -1 (i.e., not found), The map is now [[1,1]]
 
 Constraints:
 
-0 <= key, value <= 106
-At most 104 calls will be made to put, get, and remove.
+0 <= key, value <= 10^6
+At most 10^4 calls will be made to put, get, and remove.
 */
 
 class MyHashMap {
@@ -136,12 +140,12 @@ class Bucket {
   }
 }
 
-class MyHashMap {
+class MyHashMap1 {
   private int key_space;
   private List<Bucket> hash_table;
 
   /** Initialize your data structure here. */
-  public MyHashMap() {
+  public MyHashMap1() {
     this.key_space = 2069;
     this.hash_table = new ArrayList<Bucket>();
     for (int i = 0; i < this.key_space; ++i) {
