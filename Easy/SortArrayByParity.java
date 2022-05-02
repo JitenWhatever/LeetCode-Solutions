@@ -1,9 +1,8 @@
 /*
-Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A.
+Given an array A of non-negative integers, return an array consisting of all the even elements of A, 
+followed by all the odd elements of A.
 
 You may return any answer array that satisfies this condition.
-
- 
 
 Example 1:
 
@@ -18,8 +17,8 @@ Note:
 0 <= A[i] <= 5000
 */
 
-class Solution {
-    public int[] sortArrayByParity(int[] A) {
+class sortArrayByParity {
+    public int[] getSortedArrayByParity(int[] A) {
         int index = 0;
         
         for(int itr = 0; itr < A.length; ++itr) {
@@ -29,7 +28,6 @@ class Solution {
                 A[itr] = tmp;
             }
         }
-        
         
         return A;
     }
