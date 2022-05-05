@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /*
 Implement a last-in-first-out (LIFO) stack using only two queues. 
 The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
@@ -110,13 +113,13 @@ class Node {
  * boolean param_4 = obj.empty();
  */
 
- class MyStack {
+ class MyStack2 {
 
     /** Initialize your data structure here. */
     private Queue<Integer> q1 = new LinkedList<>();
     private Queue<Integer> q2 = new LinkedList<>();
     private int top;
-    public MyStack() {
+    public MyStack2() {
         
     }
     
@@ -135,13 +138,13 @@ class Node {
     }
     
     // O(1)
-   public void push(int x) {
+   public void push2(int x) {
         q1.add(x);
         top = x;
     }
 
     // O(N)
-    public void push(int x) {
+    public void push3(int x) {
         q1.add(x);
         int sz = q1.size();
         while (sz > 1) {
@@ -153,14 +156,14 @@ class Node {
     /** Removes the element on top of the stack and returns that element. */
     
     // O(1)
-    public void pop() {
+    public void pop2() {
         q1.remove();
         if (!q1.isEmpty()) {
             top = q1.peek();
         }
     }
     // O(N)
-    public int pop() {
+    public int pop3() {
         while (q1.size() > 1) {
             top = q1.remove();
             q2.add(top);
@@ -173,11 +176,11 @@ class Node {
     
     /** Get the top element. */
     // O(1)
-    public int top() {
+    public int top2() {
         return q1.peek();
     }
     
-    public int top() {
+    public int top3() {
          return top;
     }
     
