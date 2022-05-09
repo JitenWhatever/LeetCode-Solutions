@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*
 Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. 
 Return the answer in any order.
@@ -27,7 +31,7 @@ digits[i] is a digit in the range ['2', '9'].
 */
 
 
-class Solution {
+public class LetterCombinationsOfAPhoneNumber  {
     public List<String> letterCombinations(String digits) {
         List<String> result = new ArrayList<>();
         
