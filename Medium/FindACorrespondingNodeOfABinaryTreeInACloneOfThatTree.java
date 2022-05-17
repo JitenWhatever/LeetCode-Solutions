@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /*
 Given two binary trees original and cloned and given a reference to a node target in the original tree.
 
@@ -51,17 +54,15 @@ target node is a node from the original tree and is not null.
 
 
 
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-
-class Solution {
+public class FindACorrespondingNodeOfABinaryTreeInACloneOfThatTree {
+    
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    
     public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
         if(original == null || cloned == null) {
             return null;
