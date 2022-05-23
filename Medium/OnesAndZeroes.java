@@ -30,7 +30,7 @@ strs[i] consists only of digits '0' and '1'.
 */
 
 // subset generation give TLE if 2^n > 2^32
-public class Solution {
+public class OnesAndZeros {
     public int findMaxForm(String[] strs, int m, int n) {
         int maxlen = 0;
         for (int i = 0; i < (1 << strs.length); i++) {
@@ -78,7 +78,7 @@ Not include the current string in the current subset. In this case, we need not 
 Thus, the new function call takes the form calculate(strs,i+1,zeroes,ones)calculate(strs,i+1,zeroes,ones). 
 The result obtained from this function call is stored in notTakennotTaken variable.
  */
-public class Solution {
+public class OnesAndZeros {
     public int findMaxForm(String[] strs, int m, int n) {
         return calculate(strs, 0, m, n);
     }
@@ -102,7 +102,7 @@ public class Solution {
 }
 
 
-public class Solution {
+public class OnesAndZeros {
     public int findMaxForm(String[] strs, int m, int n) {
         int[][][] memo = new int[strs.length][m + 1][n + 1];
         return calculate(strs, 0, m, n, memo);
@@ -130,7 +130,7 @@ public class Solution {
 }
 
 // napsack
-public class Solution {
+public class OnesAndZeros {
     public int findMaxForm(String[] strs, int m, int n) {
         int[][] dp = new int[m + 1][n + 1];
         for (String s: strs) {
