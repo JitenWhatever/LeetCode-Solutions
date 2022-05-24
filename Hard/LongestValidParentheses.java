@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /*
 Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 
@@ -21,11 +23,11 @@ Output: 0
 
 Constraints:
 
-0 <= s.length <= 3 * 104
+0 <= s.length <= 3 * 10^4
 s[i] is '(', or ')'
 */
 
-class Solution {
+public class LongestValidParentheses {
     public int longestValidParentheses(String s) {
         int open = 0, close = 0, result = 0;
         
@@ -66,10 +68,8 @@ class Solution {
         
         return result;
     }
-}
 
-class Solution {
-    public int longestValidParentheses(String s) {
+    public int longestValidParentheses1(String s) {
          int maxans = 0;
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
@@ -87,10 +87,8 @@ class Solution {
         }
         return maxans;
     }
-}
 
 // O(N^3)
-public class Solution {
     public boolean isValid(String s) {
         Stack<Character> stack = new Stack<Character>();
         for (int i = 0; i < s.length(); i++) {
@@ -104,7 +102,7 @@ public class Solution {
         }
         return stack.empty();
     }
-    public int longestValidParentheses(String s) {
+    public int longestValidParentheses2(String s) {
         int maxlen = 0;
         for (int i = 0; i < s.length(); i++) {
             for (int j = i + 2; j <= s.length(); j+=2) {
@@ -115,11 +113,9 @@ public class Solution {
         }
         return maxlen;
     }
-}
 
 // DP O(N)
-public class Solution {
-    public int longestValidParentheses(String s) {
+    public int longestValidParentheses3(String s) {
         int maxans = 0;
         int dp[] = new int[s.length()];
         for (int i = 1; i < s.length(); i++) {
